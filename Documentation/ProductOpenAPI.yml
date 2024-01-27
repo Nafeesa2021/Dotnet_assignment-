@@ -1,0 +1,80 @@
+openapi: '3.0.2'
+info:
+  title: Product management API
+  version: '1.0'
+  description: Open API for product management database
+servers:
+- url: https://api.server.test/v1
+paths:
+  /api/products/{product_id}:
+    get:
+      description: Get product using product id
+      parameters:
+      - name: product_id
+        required: true
+        in: path
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/product"
+
+  /api/products:
+    get:
+      description: Get all products
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/product"
+
+    post:
+      description: Add new product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/product"
+      responses:
+        '201':
+          description: New product added successfully.
+          content:
+            application/json:
+              schema:
+                  properties:  
+                    product_id:
+                      type: integer
+
+components:
+  schemas:
+    product:
+      type: object
+      properties:
+        product_id:
+          type: integer
+        product_name:
+          type: string
+        category_id:
+          type: integer
+        supplier_id:
+          type: integer
+        unit_price:
+          type: number
+          format: float
+        unit_in_stock:
+          type: integer
+        discontinued:
+          type: boolean
+      required:
+      - product_id
+      - product_name
+      
